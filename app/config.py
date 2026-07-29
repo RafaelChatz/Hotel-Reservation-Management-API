@@ -9,4 +9,4 @@ class Config:
 
     SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
 
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # This feature adds significant overhead if enabled
