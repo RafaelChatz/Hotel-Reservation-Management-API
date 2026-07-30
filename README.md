@@ -57,8 +57,8 @@ Currently implemented:
 The following assumptions were made where the requirements did not provide explicit details:
 
 - Database IDs use `BIGINT` with auto-generated values through database identity columns.
-- Hotel names and cities are stored as strings with a maximum length of 100 characters.
-- A hotel must have a name, city, and star rating.
-- Hotel star ratings are restricted to values between 0 and 5 through a database check constraint.
+- Hotel names are stored as strings with a maximum length of 150 characters.
 - Flask-Migrate (Alembic) was chosen because it is the standard migration tool for Flask applications using SQLAlchemy
-- Customer email addresses are assumed to be unique and are enforced through a database unique constraint.
+- Prices will allow 0 values for free reservations(promotions, complimentary stays etc.)
+- Newly created reservations have a default status of `ACTIVE`.
+- Customer email addresses have a maximum length of 254 characters, following RFC 5321.
