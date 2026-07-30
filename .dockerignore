@@ -1,0 +1,19 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# IDE
+.idea/
+
+# Environment
+.env
+
+# Pytest
+.pytest_cache/

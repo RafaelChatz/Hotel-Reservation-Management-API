@@ -2,7 +2,6 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate
 
-
 def create_app():
     app = Flask(__name__)
 
@@ -10,6 +9,8 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    from .models.hotel import Hotel
 
     @app.route("/")
     def home():
