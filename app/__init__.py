@@ -12,6 +12,7 @@ def create_app():
 
     from .models.hotel import Hotel
     from .models.customer import Customer
+    from .models.reservaion import Reservation
 
     @app.route("/")
     def home():

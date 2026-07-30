@@ -1,5 +1,6 @@
 from ..extensions import db
 
+
 class Hotel(db.Model):
     __tablename__ = "hotels"
 
@@ -9,8 +10,9 @@ class Hotel(db.Model):
     stars = db.Column(db.Integer, nullable=False)
 
     __table_args__ = (
+        # Constraint: stars must be between 1 and 5
         db.CheckConstraint(
-            "stars >= 0 AND stars <= 5",
+            "stars >= 1 AND stars <= 5",
             name="check_hotel_stars_range"
         ),
     )
