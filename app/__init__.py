@@ -11,6 +11,7 @@ def create_app():
     migrate.init_app(app, db)
 
     from .models.hotel import Hotel
+    from .models.customer import Customer
 
     @app.route("/")
     def home():

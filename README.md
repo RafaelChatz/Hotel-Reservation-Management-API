@@ -61,3 +61,4 @@ The following assumptions were made where the requirements did not provide expli
 - A hotel must have a name, city, and star rating.
 - Hotel star ratings are restricted to values between 0 and 5 through a database check constraint.
 - Flask-Migrate (Alembic) was chosen because it is the standard migration tool for Flask applications using SQLAlchemy
+- Customer email addresses are assumed to be unique and are enforced through a database unique constraint.
