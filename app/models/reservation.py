@@ -21,8 +21,8 @@ class Reservation(db.Model):
     customer_id = db.Column(db.ForeignKey("customers.id"),
                             nullable=False)
 
-    check_in = db.Column(db.DateTime, nullable=False)
-    check_out = db.Column(db.DateTime, nullable=False)
+    check_in = db.Column(db.Date, nullable=False)
+    check_out = db.Column(db.Date, nullable=False)
 
     total_price = db.Column(db.Numeric(10, 2), nullable=False)  # fixed precision type for monetary values
 
