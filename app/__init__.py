@@ -3,6 +3,8 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate
 from .models import register_models
+from .routes import register_blueprints
+from .errors import register_error_handlers
 
 
 def create_app():
@@ -16,6 +18,12 @@ def create_app():
 
     # Models
     register_models()
+
+    # Blueprints
+    register_blueprints(app)
+
+    # Error Handling
+    register_error_handlers(app)
 
     @app.route("/")
     def home():

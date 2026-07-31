@@ -44,14 +44,3 @@ class Reservation(db.Model):
             name="check_total_price_non_negative"
         ),
     )
-
-    def to_dict(self) -> dict:
-        return {
-            'id': self.id,
-            'hotel_id': self.hotel_id,
-            'customer_id': self.customer_id,
-            'check_in': self.check_in,
-            'check_out': self.check_out,
-            'total_price': self.total_price,
-            'status': self.status,
-        }

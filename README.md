@@ -41,6 +41,7 @@ Currently implemented:
 - Flask-SQLAlchemy
 - Flask-Migrate
 - Alembic
+- Marshmallow
 
 ### Database
 
