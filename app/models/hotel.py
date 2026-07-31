@@ -22,3 +22,11 @@ class Hotel(db.Model):
             name="check_hotel_stars_range"
         ),
     )
+
+    def to_dict(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'city': self.city,
+            'stars': self.stars,
+        }
