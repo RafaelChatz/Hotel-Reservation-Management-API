@@ -2,6 +2,7 @@ from flask import Flask
 from .config import Config
 from .extensions import db, migrate
 
+
 def create_app():
     app = Flask(__name__)
 
@@ -12,7 +13,7 @@ def create_app():
 
     from .models.hotel import Hotel
     from .models.customer import Customer
-    from .models.reservaion import Reservation
+    from .models.reservation import Reservation
 
     @app.route("/")
     def home():

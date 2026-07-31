@@ -1,5 +1,9 @@
-from ..extensions import db
+from __future__ import annotations
+from sqlalchemy.orm import Mapped, relationship
 from enum import Enum
+
+from ..extensions import db
+
 
 class StatusType(Enum):
     ACTIVE = "active"
@@ -25,6 +29,8 @@ class Reservation(db.Model):
     status = db.Column(db.Enum(StatusType), nullable=False,
                        default=StatusType.ACTIVE)
 
+    hotel: Mapped[Hotel] = relationship("Hotel", back_populates="reservations")
+    customer: Mapped[Customer] = relationship("Customer", back_populates="reservations")
 
     __table_args__ = (
         # Constraint: check_out must be strictly after check_in
