@@ -6,8 +6,8 @@ from ..extensions import db
 
 
 class StatusType(Enum):
-    ACTIVE = "active"
-    CANCELLED = "cancelled"
+    ACTIVE = "ACTIVE"
+    CANCELLED = "CANCELLED"
 
 
 class Reservation(db.Model):
