@@ -57,6 +57,15 @@ def get_reservation(reservation_id):
     return reservation_schema.dump(reservation)
 
 
+@reservations_bp.route("/<int:reservation_id>", methods=["DELETE"])
+def delete_reservation(reservation_id):
+    reservation: Reservation = get_reservation_or_404(reservation_id)
+    reservation.status = StatusType.CANCELLED  # idempotent no need to check if already canceled
+
+    db.session.commit()
+    return "", HTTPStatus.NO_CONTENT
+
+
 @reservations_bp.route("/", methods=["POST"])
 def create_reservation():
     try:

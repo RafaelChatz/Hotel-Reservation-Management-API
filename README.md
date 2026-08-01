@@ -14,6 +14,10 @@ Run migrations:
 
 docker compose exec backend flask --app run.py db upgrade
 
+Populate database:
+
+docker exec -i postgres_hotel_db psql -U postgres -d hotel_db < database\seed.sql
+
 The API will be available at:
 
 http://localhost:5000
@@ -63,3 +67,5 @@ The following assumptions were made where the requirements did not provide expli
 - Prices will allow 0 values for free reservations(promotions, complimentary stays etc.)
 - Newly created reservations have a default status of `ACTIVE`.
 - Customer email addresses have a maximum length of 254 characters, following RFC 5321.
+- Soft deleted hotels are not shown, but deleted reservations (`CANCELLED`) are shown.
+- The data_removed value in hotels cannot be changed with PUT and POST request.

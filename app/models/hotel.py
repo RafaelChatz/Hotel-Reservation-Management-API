@@ -12,6 +12,7 @@ class Hotel(db.Model):
     name = db.Column(db.String(150), nullable=False)
     city = db.Column(db.String(100), nullable=False)
     stars = db.Column(db.Integer, nullable=False)
+    date_removed = db.Column(db.DateTime(timezone=True), nullable=True, dump_only=True)
 
     reservations: Mapped[List[Reservation]] = relationship("Reservation", back_populates="hotel")
 
