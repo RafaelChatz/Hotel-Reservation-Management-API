@@ -1,6 +1,7 @@
 from flask import Blueprint, request, abort
 from marshmallow import ValidationError
 from http import HTTPStatus
+from datetime import datetime
 
 from ..messages import HOTEL_NOT_FOUND, CUSTOMER_NOT_FOUND, RESERVATION_NOT_FOUND, CUSTOMER_HAS_OVERLAPPING_RESERVATION
 from ..models.hotel import Hotel
@@ -29,6 +30,35 @@ def validate_customer_exists(customer_id):
         abort(HTTPStatus.NOT_FOUND, description=CUSTOMER_NOT_FOUND)
 
 
+def query_reservations(filters) -> list[Reservation]:
+    query = (db.session.query(Reservation)
+             .join(Customer, Reservation.customer_id == Customer.id)
+             .join(Hotel, Reservation.hotel_id == Hotel.id))
+
+    if filters.get("hotel_name"):
+        query = query.filter(Hotel.name.ilike(f"%{filters['hotel_name']}%"))
+
+    if filters.get("customer_name"):
+        full_name = Customer.first_name + " " + Customer.last_name
+        query = query.filter(full_name.ilike(f"%{filters['customer_name']}%"))
+
+    if filters.get("city"):
+        query = query.filter(Hotel.city.ilike(f"%{filters['city']}%"))
+
+    if filters.get("status"):
+        query = query.filter(Reservation.status == StatusType[filters["status"]])
+
+    if filters.get("check_in"):
+        check_in = datetime.strptime(filters["check_in"], "%Y-%m-%d").date()
+        query = query.filter(Reservation.check_in >= check_in)
+
+    if filters.get("check_out"):
+        check_out = datetime.strptime(filters["check_out"], "%Y-%m-%d").date()
+        query = query.filter(Reservation.check_out <= check_out)
+
+    return query.distinct()
+
+
 def validate_no_overlapping_reservations(customer_id, check_in, check_out):
     reservation = (
         db.session.query(Reservation)
@@ -43,6 +73,22 @@ def validate_no_overlapping_reservations(customer_id, check_in, check_out):
 
     if reservation:
         abort(HTTPStatus.CONFLICT, description=CUSTOMER_HAS_OVERLAPPING_RESERVATION)
+
+
+@reservations_bp.route("/search", methods=["GET"])
+def search_reservations():
+    filters = {
+        "hotel_name": request.args.get("hotelName"),
+        "customer_name": request.args.get("customerName"),
+        "city": request.args.get("city"),
+        "status": request.args.get("status"),
+        "check_in": request.args.get("checkIn"),
+        "check_out": request.args.get("checkOut"),
+    }
+
+    reservations = query_reservations(filters)
+
+    return reservations_schema.dump(reservations)
 
 
 @reservations_bp.route("/", methods=["GET"])

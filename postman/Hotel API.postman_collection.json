@@ -781,6 +781,52 @@
           "response": []
         },
         {
+          "name": "GET search reservations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5000/reservations/search?hotelName=Elite Garden&status=ACTIVE&city=Corfu&checkIn=2026-04-15&checkOut=2026-04-28&customerName=Schneider",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "5000",
+              "path": [
+                "reservations",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "hotelName",
+                  "value": "Elite Garden"
+                },
+                {
+                  "key": "status",
+                  "value": "ACTIVE"
+                },
+                {
+                  "key": "city",
+                  "value": "Corfu"
+                },
+                {
+                  "key": "checkIn",
+                  "value": "2026-04-15"
+                },
+                {
+                  "key": "checkOut",
+                  "value": "2026-04-28"
+                },
+                {
+                  "key": "customerName",
+                  "value": "Schneider"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "GET specific reservation",
           "request": {
             "method": "GET",
