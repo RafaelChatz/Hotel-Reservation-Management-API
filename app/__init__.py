@@ -1,5 +1,5 @@
 from flask import Flask
-
+from flasgger import Swagger
 from .config import Config
 from .extensions import db, migrate
 from .models import register_models
@@ -12,6 +12,7 @@ def create_app():
 
     # Configuration
     app.config.from_object(Config)
+    swagger = Swagger(app)
 
     db.init_app(app)
     migrate.init_app(app, db)

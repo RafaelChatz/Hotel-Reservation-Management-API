@@ -7,7 +7,7 @@ from ..models.hotel import Hotel
 class HotelSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Hotel
-
+        exclude = ("date_removed",)
     stars = auto_field(
         validate=validate.Range(min=1, max=5),
     )

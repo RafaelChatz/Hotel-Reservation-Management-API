@@ -70,7 +70,8 @@ Currently implemented:
 5. Access the API: http://localhost:5000
 
 6. Test by running: docker compose exec backend python -m pytest
-
+7. Swagger API: http://localhost:5000/apidocs/#/
+8. 
 ## API Endpoints
 
 ### Hotels
