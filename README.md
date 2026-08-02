@@ -42,13 +42,7 @@ Key features include:
 
 The application follows a layered architecture:
 
-Routes
-    ↓
-Services
-    ↓
-Repositories
-    ↓
-PostgreSQL
+Routes → Services → Repositories → PostgreSQL
 
 - Routes handle HTTP requests and responses.
 - Services contain business rules and validations.
