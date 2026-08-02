@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flasgger import Swagger
 from .config import Config
 from .extensions import db, migrate
@@ -12,7 +12,7 @@ def create_app():
 
     # Configuration
     app.config.from_object(Config)
-    swagger = Swagger(app)
+    Swagger(app)
 
     db.init_app(app)
     migrate.init_app(app, db)
@@ -28,8 +28,6 @@ def create_app():
 
     @app.route("/")
     def home():
-        return {
-            "message": "Hello, Hotel Reservation API is running"
-        }
+        return render_template("index.html")
 
     return app
