@@ -69,6 +69,8 @@ Currently implemented:
         Linux / macOS: docker exec -i postgres_hotel_db psql -U postgres -d hotel_db < database\seed.sql
 5. Access the API: http://localhost:5000
 
+6. Test by running: docker compose exec backend python -m pytest
+
 ## API Endpoints
 
 ### Hotels
