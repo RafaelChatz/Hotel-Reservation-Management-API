@@ -1,66 +1,46 @@
 from flask import Blueprint, request, abort
 from marshmallow import ValidationError
 from http import HTTPStatus
-from datetime import datetime, timezone
 
-from ..models.reservation import Reservation, StatusType
-from ..messages import HOTEL_NOT_FOUND
+from ..services.reservation import ReservationService
+from ..services.hotel import HotelService
+from ..models.reservation import Reservation
 from ..schemas.hotel import hotel_schema, hotels_schema
-from ..extensions import db
 from ..models.hotel import Hotel
 
 hotels_bp = Blueprint('hotels', __name__, url_prefix='/hotels')
 
-
-def get_hotel_or_404(hotel_id) -> Hotel:
-    hotel: Hotel = db.session.get(Hotel, hotel_id)
-    if hotel is None or hotel.date_removed is not None:
-        abort(HTTPStatus.NOT_FOUND, description=HOTEL_NOT_FOUND)
-    return hotel
+hotel_service = HotelService()
+reservation_service = ReservationService()
 
 
 @hotels_bp.route("/", methods=["GET"])
 def get_hotels():
-    hotels_list: list[Hotel] = db.session.query(Hotel).filter(Hotel.date_removed.is_(None))
+    hotels_list: list[Reservation] = hotel_service.get_all()
     return hotels_schema.dump(hotels_list)
 
 
 @hotels_bp.route("/<int:hotel_id>", methods=["GET"])
 def get_hotel(hotel_id):
-    hotel: Hotel = get_hotel_or_404(hotel_id)
+    hotel: Reservation = hotel_service.get_or_404(hotel_id)
     return hotel_schema.dump(hotel)
 
 
 @hotels_bp.route("/<int:hotel_id>", methods=["PUT"])
 def update_hotel(hotel_id):
-    hotel: Hotel = get_hotel_or_404(hotel_id)
-
     try:
         data = hotel_schema.load(request.get_json())
     except ValidationError as err:
         abort(HTTPStatus.BAD_REQUEST, description=err.messages)
 
-    hotel.name = data["name"]
-    hotel.city = data["city"]
-    hotel.stars = data["stars"]
-
-    db.session.commit()
+    hotel: Hotel = hotel_service.update(hotel_id, data)
     return hotel_schema.dump(hotel)
 
 
 @hotels_bp.route("/<int:hotel_id>", methods=["DELETE"])
 def delete_hotel(hotel_id):
-    hotel: Hotel = get_hotel_or_404(hotel_id)
-    hotel.date_removed = datetime.now(timezone.utc)
-
-    reservations: list[Reservation] = db.session.query(Reservation).filter(
-        Reservation.hotel_id == hotel.id
-    ).all()
-
-    for reservation in reservations:
-        reservation.status = StatusType.CANCELLED
-
-    db.session.commit()
+    hotel_service.delete(hotel_id)
+    reservation_service.cancel_all_with_hotel_id(hotel_id)
     return "", HTTPStatus.NO_CONTENT
 
 
@@ -71,7 +51,5 @@ def create_hotel():
     except ValidationError as err:
         abort(HTTPStatus.BAD_REQUEST, description=err.messages)
 
-    hotel = Hotel(name=data["name"], city=data["city"], stars=data["stars"])
-    db.session.add(hotel)
-    db.session.commit()
+    hotel: Hotel = hotel_service.create(data)
     return hotel_schema.dump(hotel), HTTPStatus.CREATED

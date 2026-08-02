@@ -10,5 +10,6 @@ class CustomerSchema(SQLAlchemyAutoSchema):
 
     email = auto_field(validate=validate.Email())
 
+
 customer_schema = CustomerSchema()
 customers_schema = CustomerSchema(many=True)

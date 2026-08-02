@@ -1,5 +1,5 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from marshmallow import validate, validates_schema, ValidationError
+from marshmallow import validate
 
 from ..models.hotel import Hotel
 

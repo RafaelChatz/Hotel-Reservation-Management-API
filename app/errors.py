@@ -27,4 +27,13 @@ def register_error_handlers(app):
                 }
             }, HTTPStatus.BAD_REQUEST
 
+        if "Status must be one of: ACTIVE, CANCELLED." in error.description:
+            return {
+                "errors": {
+                    "status": [
+                        error.description
+                    ]
+                }
+            }, HTTPStatus.BAD_REQUEST
+
         return {"errors": error.description}, HTTPStatus.BAD_REQUEST

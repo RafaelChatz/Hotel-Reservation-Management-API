@@ -1,5 +1,6 @@
 # Validation
 CHECK_OUT_AFTER_CHECK_IN = "Check-out date must be after the check-in date."
+INVALID_RESERVATION_STATUS = "Status must be one of: ACTIVE, CANCELLED."
 INVALID_REQUEST_BODY = "Malformed or invalid request body."
 INVALID_CONTENT_TYPE = "Content-Type must be application/json."
 
