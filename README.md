@@ -165,6 +165,84 @@ http://localhost:5000/apidocs
 - checkIn -– Returns reservations with a check-in date on or after the specified date.
 - checkOut -- Returns reservations with a check-out date on or before the specified date.
 
+### API Examples
+
+#### Get a Hotel
+
+```http
+GET /hotels/1
+```
+
+**Response**
+
+```json
+{
+  "id": 1,
+  "name": "Hilton Athens",
+  "city": "Athens",
+  "stars": 5
+}
+```
+---
+
+#### Update a Hotel
+
+```http
+PUT /hotels/1
+Content-Type: application/json
+
+{
+  "name": "Hilton Athens",
+  "city": "Athens",
+  "stars": 5
+}
+```
+
+**Response**
+
+```json
+{
+  "id": 1,
+  "name": "Hilton Athens Renovated",
+  "city": "Athens",
+  "stars": 5
+}
+```
+
+---
+
+#### Create a Reservation
+
+```http
+POST /reservations
+Content-Type: application/json
+
+{
+  "hotel_id": 1,
+  "customer_id": 1,
+  "check_in": "2027-11-10",
+  "check_out": "2027-11-15",
+  "total_price": 450.00,
+  "status": "ACTIVE"
+}
+```
+
+**Response**
+
+```json
+{
+  "id": 1,
+  "hotel_id": 1,
+  "customer_id": 1,
+  "check_in": "2027-11-10",
+  "check_out": "2027-11-15",
+  "total_price": 450.0,
+  "status": "ACTIVE"
+}
+```
+
+---
+
 ## Business rules
 
 - Hotel stars must be between 1 and 5.
